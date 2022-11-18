@@ -35,6 +35,13 @@
                 const int a0=a*2;
                 const int f0=f*2;
 
+                int oct = 5;
+                int del;
+                bool dir=0;
+                const int use=180;
+                const int tempo=120;
+                int count;
+
                 //Device info
                 // using a 200-step motor (most common)
                 const int motorSteps = 200;
@@ -55,6 +62,8 @@
                     return note;
                 }
                 void devInit();
+                Player();
+                void note(int num, long dur);
         
 };
 

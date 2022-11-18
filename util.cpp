@@ -13,6 +13,7 @@ class inpProc{
         int clockEnablePin;
         int dataIn;
     public: 
+        inpProc();
         void GetData();
         void ByteFlips(int num);
         bool CheckOnePress();
@@ -21,7 +22,7 @@ class inpProc{
 
 //GET RID OF
 
-
+inpProc::inpProc(){}
 
 void inpProc::GetData(){
   digitalWrite(load, LOW);

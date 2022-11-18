@@ -34,6 +34,15 @@ class Player{
         const int a0=a*2;
         const int f0=f*2;
 
+        int oct = 5;
+        int del;
+        bool dir=0;
+        const int use=180;
+        const int tempo=120;
+        int count;
+
+
+
         //Device info
         // using a 200-step motor (most common)
         const int motorSteps = 200;
@@ -55,6 +64,7 @@ class Player{
         }
         void devInit();
         Player();
+        void note(int num, long dur);
         
 };
 
@@ -71,7 +81,7 @@ void Player::devInit(){
             pinMode(dataIn, INPUT);
         }
 
-/* void note(int num,long dur) {
+void Player::note(int num,long dur) {
   del=(num*oct)/10;
   dir=!dir;
  digitalWrite(dirPin,dir);
@@ -84,4 +94,3 @@ void Player::devInit(){
   }
 
 }
- */

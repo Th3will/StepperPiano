@@ -14,11 +14,8 @@
 
 // here comes a bunch of 'useful' vars; dont mind
 int count;
-bool dir=0;
-int del;
 
-int use=180;
-int tempo=120;
+
 int oct=5;
 
 
@@ -36,12 +33,12 @@ void loop() {
 
 
 
-void pa(int durp){
+/* void pa(int durp){
   int ker=floor(durp/100)*tempo;
 delay(ker);
   
   }
-
+ */
 
 
 
