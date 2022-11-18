@@ -1,5 +1,5 @@
 //Notes.cpp
-#include <cmath>
+#include <Arduino.h>
 class Player{
     private:
         //key values
@@ -53,7 +53,14 @@ class Player{
         int getNote(int note){
             return note;
         }
-        void devInit(){
+        void devInit();
+        Player();
+        
+};
+
+Player::Player(){}; //keep all values
+
+void Player::devInit(){
             Serial.begin(9600);
             // Sets the two pins as Outputs
             pinMode(stepPin,OUTPUT); 
@@ -63,45 +70,18 @@ class Player{
             pinMode(clockIn, OUTPUT);
             pinMode(dataIn, INPUT);
         }
-};
 
-/* void littleLamb(){
-  for (int i = 0; i < 7; i++){
-    note(first[i],500);
-    pa(200);
+/* void note(int num,long dur) {
+  del=(num*oct)/10;
+  dir=!dir;
+ digitalWrite(dirPin,dir);
+  count=floor((dur*5*tempo)/del);
+  for(int x = 0; x < count; x++) {
+    digitalWrite(stepPin,HIGH);
+    delayMicroseconds(del);
+    digitalWrite(stepPin,LOW);
+    delayMicroseconds(del);
   }
-  for (int i = 0; i < 6; i++){
-    note(second[i],500);
-    pa(200);
-  }
-  for (int i = 0; i < 7; i++){
-    note(first[i],500);
-    pa(200);
-  }
-  for (int i = 0; i < 6; i++){
-    note(fourth[i],500);
-    pa(200);
-  }
-} */
 
-//check that only one note is pressed and play corresponding key
-/* void play(){
-    for (int i = 0; i < 8; i++){
-    if (switches[i] == 1){
-      switch (i) {
-        case 1:
-          note(c,100);
-          break;
-        case 2:
-          note(d,100);
-          break;
-        case 3:
-          note(e,100);
-          break;
-        default:
-          pa(100);
-          break;
-      }
-    }
 }
-} */
+ */

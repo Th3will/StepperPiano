@@ -8,15 +8,22 @@ class inpProc{
         byte incoming;
         bool switches[8] = {false,false,false,false,false,false,false,false};
         int place;
+        int load; 
+        int clockIn;
+        int clockEnablePin;
+        int dataIn;
     public: 
-        void update(){
-            getData();
-        }
-}
+        void GetData();
+        void ByteFlips(int num);
+        bool CheckOnePress();
+        void FlipAndPrintArray();
+};
+
+//GET RID OF
 
 
 
-void getData(){
+void inpProc::GetData(){
   digitalWrite(load, LOW);
   delayMicroseconds(5);
   digitalWrite(load, HIGH);
@@ -34,7 +41,7 @@ void getData(){
 }
 
 // changes switches to correspond to buttons pressed
-void byteFlips(int num){
+void inpProc::ByteFlips(int num){
   int count = 0;
   int placeholder = num/1;
   //Serial.println(placeholder);
@@ -49,10 +56,10 @@ void byteFlips(int num){
     }
       count++;
   }  
-  flipAndPrintArray();
+    FlipAndPrintArray();
 }
 
-bool checkOnePress(){
+bool inpProc::CheckOnePress(){
   for (int i = 0; i < 8; i++){
     if (switches[i] == true){
       for (int j = i+1; j < 8; j++){
@@ -65,7 +72,7 @@ bool checkOnePress(){
   return true;
 }
 
-void flipAndPrintArray(){
+void inpProc::FlipAndPrintArray(){
   for(int i = 1; i < 4; i++){
     if(switches[i] == 1){
       switches[i] = 0;

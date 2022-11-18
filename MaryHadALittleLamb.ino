@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "A4988.h"
+//#include "A4988.h "
 #include "player.h"
 #include "util.h"
 
@@ -21,40 +21,27 @@ int use=180;
 int tempo=120;
 int oct=5;
 
-/* int first[] = {e,d,c,d,e,e,e};
-int second[] = {d,d,d,e,g,g};
-int fourth[] = {e,d,d,e,d,c}; */
 
 
 void setup() {
-  devInit();
+  Player keyb = Player();
+  keyb.devInit();
 }
 void loop() {
   oct=5;
-  getData();
+  //getData();
 }
 
 
 
-void note(int num,long dur) {
-  del=(num*oct)/10;
-  dir=!dir;
- digitalWrite(dirPin,dir);
-  count=floor((dur*5*tempo)/del);
-  for(int x = 0; x < count; x++) {
-    digitalWrite(stepPin,HIGH);
-    delayMicroseconds(del);
-    digitalWrite(stepPin,LOW);
-    delayMicroseconds(del);
-  }
 
-}
 
 void pa(int durp){
   int ker=floor(durp/100)*tempo;
 delay(ker);
   
   }
+
 
 
 
