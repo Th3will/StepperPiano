@@ -24,6 +24,7 @@ class inpProc{
 
 inpProc::inpProc(){}
 
+//gets data from shift reg, converts byte form to int and stores in place
 void inpProc::GetData(){
   digitalWrite(load, LOW);
   delayMicroseconds(5);
@@ -35,13 +36,9 @@ void inpProc::GetData(){
   digitalWrite(clockEnablePin, LOW);
   incoming = shiftIn(dataIn, clockIn, LSBFIRST);
   place = incoming/1;
-  /* digitalWrite(clockEnablePin, HIGH);
-  Serial.print("Pin States:\r\n");
-  Serial.println(incoming, BIN);
-  delay(200); */
 }
 
-// changes switches to correspond to buttons pressed
+// changes switches to correspond to which buttons are pressed
 void inpProc::ByteFlips(){
   int count = 0;
   int placeholder = place/1;

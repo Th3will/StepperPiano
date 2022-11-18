@@ -29,47 +29,9 @@ void loop() {
   oct=5;
   keyb.GetData();
   keyb.ByteFlips();
+  //find which keys are pressed and first pressed goes into first motor and second in second and so on
   
 }
 
 
-
-
-
-/* void pa(int durp){
-  int ker=floor(durp/100)*tempo;
-delay(ker);
-  
-  }
- */
-
-
-
-
-
-//checks that only one note is pressed
-
-
-
-
-
-/* int switchesToInt(){
-  int sol = 0;
-  for(int i = 0; i < 8; i++){
-    if (switches[i] == true){
-      sol += power(2,7-i);
-    }
-  }
-  return sol;
-}
-
-int power(int num, int raise){
-  int result = 1;
-  for (int i = 0; i < raise; i++){
-    result *= num;
-  }
-  return result;
-} 
-
-*/
 
