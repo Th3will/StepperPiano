@@ -12,11 +12,9 @@
     public: 
         inpProc();
         void GetData();
-        void ByteFlips(int num);
+        void ByteFlips();
         bool CheckOnePress();
         void FlipAndPrintArray();
-};
-
-        
+    };
 
 #endif

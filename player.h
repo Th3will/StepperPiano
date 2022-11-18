@@ -1,5 +1,5 @@
-#ifndef UTIL
-    #define UTIL
+#ifndef PLAYER
+    #define PLAYER
     #include <arduino.h>
         class Player{
             private:
@@ -61,6 +61,7 @@
                 int getNote(int note){
                     return note;
                 }
+                void refreshScheduler(int* newSched);
                 void devInit();
                 Player();
                 void note(int num, long dur);

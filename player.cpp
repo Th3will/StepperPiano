@@ -58,17 +58,22 @@ class Player{
         const int MS3 = 12;
         const int SLPRST = 13;
 
-    public: 
+        //index corresponds to which motor to send input to
+        int scheduler[3] = {0,0,0};
+
+    public:
+        Player();
+        void devInit();
+        void refreshScheduler(int* newSched);
         int getNote(int note){
             return note;
         }
-        void devInit();
-        Player();
         void note(int num, long dur);
         
 };
 
-Player::Player(){}; //keep all values
+Player::Player(){
+}; //keep all values
 
 void Player::devInit(){
             Serial.begin(9600);
@@ -81,6 +86,17 @@ void Player::devInit(){
             pinMode(dataIn, INPUT);
         }
 
+void Player::refreshScheduler(int* newSched){
+    if(sizeof(newSched) != 3){
+
+    } else {
+      for (size_t i = 0; i < 3; i++)
+      {
+        scheduler[i] = newSched[i];
+      }
+          }
+}
+
 void Player::note(int num,long dur) {
   del=(num*oct)/10;
   dir=!dir;
@@ -92,5 +108,4 @@ void Player::note(int num,long dur) {
     digitalWrite(stepPin,LOW);
     delayMicroseconds(del);
   }
-
 }

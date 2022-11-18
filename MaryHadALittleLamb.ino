@@ -18,15 +18,18 @@ int count;
 
 int oct=5;
 
+Player motors = Player();
+inpProc keyb = inpProc(); 
 
 
 void setup() {
-  Player keyb = Player();
-  keyb.devInit();
+  motors.devInit();
 }
 void loop() {
   oct=5;
-  //getData();
+  keyb.GetData();
+  keyb.ByteFlips();
+  
 }
 
 

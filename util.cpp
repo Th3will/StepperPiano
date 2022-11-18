@@ -15,7 +15,7 @@ class inpProc{
     public: 
         inpProc();
         void GetData();
-        void ByteFlips(int num);
+        void ByteFlips();
         bool CheckOnePress();
         void FlipAndPrintArray();
 };
@@ -42,9 +42,9 @@ void inpProc::GetData(){
 }
 
 // changes switches to correspond to buttons pressed
-void inpProc::ByteFlips(int num){
+void inpProc::ByteFlips(){
   int count = 0;
-  int placeholder = num/1;
+  int placeholder = place/1;
   //Serial.println(placeholder);
   for (int i = 128; i >= 1; i/=2){
     if((placeholder/i) == 1){
