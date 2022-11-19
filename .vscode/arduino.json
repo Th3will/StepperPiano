@@ -1,4 +1,5 @@
 {
     "board": "arduino:avr:uno",
-    "sketch": "MaryHadALittleLamb.ino"
+    "sketch": "MaryHadALittleLamb.ino",
+    "port": "COM3"
 }
