@@ -18,3 +18,6 @@ Clean up code
         * 
 * Input processor
 * Stepper Motor output processing
+
+## Issues
+The current implementation will likely only use one motor since the arduino can basically only run one set of commands at a time

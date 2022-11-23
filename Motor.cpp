@@ -30,6 +30,7 @@ void Motor::init(){
             // Sets the two pins as Outputs
             pinMode(stepPin,OUTPUT); 
             pinMode(dirPin,OUTPUT);
+            digitalWrite(dirPin,dir);
       }
 
 //take in note, calculate valid rotation speed, check which motor is free
@@ -38,15 +39,12 @@ void Motor::note(int num) {
   //calculate delay
   del=(num*oct)/10;
   //change direction to ensure lack of conflict
-  dir=!dir;
- digitalWrite(dirPin,dir);
   //count=floor((dur*5*tempo)/del);
-  while(isPressed){
     digitalWrite(stepPin,HIGH);
     delayMicroseconds(del);
     digitalWrite(stepPin,LOW);
     delayMicroseconds(del);
-  }
+    inUse = false;
 }
 
   bool Motor::getInUse() const{

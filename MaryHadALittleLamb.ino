@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <cmath>
+//#include <cmath>
 //#include "A4988.h "
 #include "Motor.h"
 
@@ -31,9 +31,8 @@ int del;
 bool dir=0;
 const int use=180;
 const int tempo=120;
-int count;
 
-const int notes[7] = {1912, 1703, 1517, 1431, 1275, 1136, 1012};
+const int notes[8] = {1012, 1136, 1275, 1431, 1517, 1703, 1912, 2024};
 
 
 void GetData(){
