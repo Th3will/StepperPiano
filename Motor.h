@@ -15,10 +15,11 @@
         int del;
         bool isPressed;
         int oct = 5;
+        int count;
     public:
         Motor(int step, int dir);
         void init();
-        void note(int num);
+        void play(int delay);
         bool getInUse() const;
 };
 

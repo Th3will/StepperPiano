@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <cmath>
+//#include <cmath>
 //#include "A4988.h "
 #include "Motor.h"
 
@@ -31,7 +31,6 @@ int del;
 bool dir=0;
 const int use=180;
 const int tempo=120;
-int count;
 
 const int notes[7] = {1912, 1703, 1517, 1431, 1275, 1136, 1012};
 
@@ -49,16 +48,6 @@ void GetData(){
   incoming = shiftIn(dataIn, clockIn, LSBFIRST);
 }
 
-void Schedule(int note){
-  if(motor0.getInUse()){
-    motor0.note(note);
-  }else if(motor1.getInUse()){
-    motor1.note(note);
-  }else if(motor2.getInUse()){
-    motor2.note(note);
-  }
-}
-
 int twoPow(int x){
   int resu = 1;
   for(int i = 0; i < x; i++){
@@ -68,12 +57,14 @@ int twoPow(int x){
 }
 
 int findNote(int index = 0){
-  for (index; index < 7; index++){
-    if(incoming & twoPow(index)){
-      Schedule(notes[index]);
+  for (index; index < 8; index++){
+    if(!(incoming & twoPow(index))){
+      del = notes[index];
+      return 0;
     }
   }
-  return 0;
+  del = 0;
+  return -1;
 }
 
 void setup() {
@@ -89,6 +80,10 @@ void loop() {
   //find which keys are pressed and first pressed goes into first motor and second in second and so on
   GetData();
   findNote();
+  motor0.play(del);
+  motor1.play(del);
+  motor2.play(del);
+
   
 }
 
