@@ -15,10 +15,12 @@ class Motor{
         bool isPressed;
         int oct = 5;
         int count;
+        const int notes[8] = {2024,1912,1703,1517,1431,1275,1136,1012};
+
     public:
         Motor(int step, int dir);
         void init();
-        void play(int delay);
+        void play(int note);
         bool getInUse() const;
 };
 
@@ -34,9 +36,9 @@ void Motor::init(){
       }
 
 //take in note, calculate valid rotation speed, check which motor is free
-void Motor::play(int time) {
-  if (time != 0){
-    del=(1912*oct)/10;
+void Motor::play(int note) {
+  if (note != -1){
+    del=(notes[note]*oct)/10;
     dir = !dir;
     digitalWrite(dirPin, dir);
     count=floor((1*5*120)/del);

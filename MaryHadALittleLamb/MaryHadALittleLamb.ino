@@ -27,12 +27,11 @@ byte incoming;
 // here comes a bunch of 'useful' vars; dont mind
 int count;
 int oct = 5;
-int del;
+int note;
 bool dir=0;
 const int use=180;
 const int tempo=120;
 
-const int notes[8] = {(2024*oct)/10,(1912*oct)/10, (1703*oct)/10, (1517*oct)/10, (1431*oct)/10, (1275*oct)/10, (1136*oct)/10, (1012*oct)/10};
 
 
 void GetData(){
@@ -59,11 +58,9 @@ int twoPow(int x){
 int findNote(int index = 0){
   for (index; index < 8; index++){
     if(!(incoming & twoPow(index))){
-      del = notes[index];
-      return 0;
+      return index;
     }
   }
-  del = 0;
   return -1;
 }
 
@@ -76,26 +73,17 @@ void setup() {
   pinMode(clockIn,OUTPUT);
   pinMode(clockEnablePin,OUTPUT);
   Serial.begin(9600);
-  for (int i = 0; i < 8; i++)
-  {
-   Serial.print("note ");
-   Serial.print(i);
-   Serial.print(" = ");
-   Serial.println(notes[i]);
-  }
+  
   
 }
 void loop() {
   int time = millis();
   //find which keys are pressed and first pressed goes into first motor and second in second and so on
   GetData();
-  findNote();
-  motor0.play(del);
-  motor1.play(del);
-  motor2.play(del);
-  if (time % 1000 == 0){
-    Serial.println(del);
-  }
+  note = findNote();
+  motor0.play(note);
+  motor1.play(note);
+  motor2.play(note);
 }
 
 

@@ -16,10 +16,11 @@
         bool isPressed;
         int oct = 5;
         int count;
+        const int notes[8] = {(2024*oct)/10,(1912*oct)/10, (1703*oct)/10, (1517*oct)/10, (1431*oct)/10, (1275*oct)/10, (1136*oct)/10, (1012*oct)/10};
     public:
         Motor(int step, int dir);
         void init();
-        void play(int delay);
+        void play(int note);
         bool getInUse() const;
 };
 
