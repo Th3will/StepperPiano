@@ -36,7 +36,7 @@ void Motor::init(){
 //take in note, calculate valid rotation speed, check which motor is free
 void Motor::play(int time) {
   if (time != 0){
-    del=time;
+    del=(1912*oct)/10;
     dir = !dir;
     digitalWrite(dirPin, dir);
     count=floor((1*5*120)/del);
