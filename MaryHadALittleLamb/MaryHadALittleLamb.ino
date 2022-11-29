@@ -75,16 +75,27 @@ void setup() {
   pinMode(load,OUTPUT);
   pinMode(clockIn,OUTPUT);
   pinMode(clockEnablePin,OUTPUT);
+  Serial.begin(9600);
+  for (int i = 0; i < 8; i++)
+  {
+   Serial.print("note ");
+   Serial.print(i);
+   Serial.print(" = ");
+   Serial.println(notes[i]);
+  }
+  
 }
 void loop() {
+  int time = millis();
   //find which keys are pressed and first pressed goes into first motor and second in second and so on
   GetData();
   findNote();
   motor0.play(del);
   motor1.play(del);
   motor2.play(del);
-
-  
+  if (time % 1000 == 0){
+    Serial.println(del);
+  }
 }
 
 
