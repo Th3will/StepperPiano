@@ -32,7 +32,7 @@ bool dir=0;
 const int use=180;
 const int tempo=120;
 
-const int notes[7] = {1912, 1703, 1517, 1431, 1275, 1136, 1012};
+const int notes[8] = {(2024*oct)/10,(1912*oct)/10, (1703*oct)/10, (1517*oct)/10, (1431*oct)/10, (1275*oct)/10, (1136*oct)/10, (1012*oct)/10};
 
 
 void GetData(){
