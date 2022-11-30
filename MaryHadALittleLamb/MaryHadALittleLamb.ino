@@ -22,7 +22,7 @@ byte incoming;
 // here comes a bunch of 'useful' vars; dont mind
 int coun;
 int oct = 5;
-int del;
+int note;
 bool dir=0;
 const int use=180;
 const int tempo=120;
@@ -93,6 +93,15 @@ void loop() {
   }
   //reset motorID for next loop through;
  motorID = 0;
+}
+void loop() {
+  int time = millis();
+  //find which keys are pressed and first pressed goes into first motor and second in second and so on
+  GetData();
+  note = findNote();
+  motor0.play(note);
+  motor1.play(note);
+  motor2.play(note);
 }
 
 
