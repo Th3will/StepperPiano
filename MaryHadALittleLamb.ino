@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <cmath>
+//#include <cmath>
 //#include "A4988.h "
 #include "Motor.h"
 
@@ -9,11 +9,6 @@
   Make Motor Scheduler w/ cases
   Make everything into a struct and cleanup
 */
-
-//Motor Initialization
-Motor motor0 = Motor(8,9);
-Motor motor1 = Motor(10,11);
-Motor motor2 = Motor(12,13);
 
 //Shift Register pins
 const int load = 7;
@@ -25,71 +20,79 @@ const int clockEnablePin = 4;
 byte incoming;
 
 // here comes a bunch of 'useful' vars; dont mind
-int count;
+int coun;
 int oct = 5;
 int del;
 bool dir=0;
 const int use=180;
 const int tempo=120;
-int count;
 
-const int notes[7] = {1912, 1703, 1517, 1431, 1275, 1136, 1012};
+const int notes[8] = {1012, 1136, 1275, 1431, 1517, 1703, 1912, 2024};
+//Motor pins; Left->Mid->Right
+const int motorStep[3] = {8,10,12};
+const int motorDir[3] = {9,11,13};
+//cycles through during loop to schedule which motor
+int motorID;
 
 
-void GetData(){
-  //unsigned long t0 = micros();
-  digitalWrite(load, LOW);
-  delayMicroseconds(5);
-  digitalWrite(load, HIGH);
-  delayMicroseconds(5);
-
-  // Get data from 74HC165
-  digitalWrite(clockIn, HIGH);
-  digitalWrite(clockEnablePin, LOW);
-  incoming = shiftIn(dataIn, clockIn, LSBFIRST);
+//Motor Initialization
+void motorInit(){
+  //motor right
+    pinMode(motorStep[0],OUTPUT); 
+    pinMode(motorDir[0],OUTPUT);
+    //motor mid
+    pinMode(motorStep[1],OUTPUT); 
+    pinMode(motorDir[1],OUTPUT);
+    //motor left
+    pinMode(motorStep[2],OUTPUT); 
+    pinMode(motorDir[2],OUTPUT);
 }
 
-void Schedule(int note){
-  if(motor0.getInUse()){
-    motor0.note(note);
-  }else if(motor1.getInUse()){
-    motor1.note(note);
-  }else if(motor2.getInUse()){
-    motor2.note(note);
-  }
+//Key Initialization
+void keyInit(){
+    pinMode(0,INPUT_PULLUP);
+    pinMode(1,INPUT_PULLUP);
+    pinMode(2,INPUT_PULLUP);
+    pinMode(3,INPUT_PULLUP);
+    pinMode(4,INPUT_PULLUP);
+    pinMode(5,INPUT_PULLUP);
+    pinMode(6,INPUT_PULLUP);
+    pinMode(7,INPUT_PULLUP);
+
 }
 
-int twoPow(int x){
-  int resu = 1;
-  for(int i = 0; i < x; i++){
-    resu *= 2;
+//play music
+void note(int num, int motorID) {
+  del=(num*oct)/10;
+  digitalWrite(motorDir[motorID],dir);
+  //x in x*5*temp is duration in milliseconds
+  coun=floor((1*5*tempo)/del);
+  for(int x = 0; x < coun; x++) {
+    digitalWrite(motorStep[motorID],HIGH);
+    delayMicroseconds(del);
+    digitalWrite(motorStep[motorID],LOW);
+    delayMicroseconds(del);
   }
-  return resu;
-}
-
-int findNote(int index = 0){
-  for (index; index < 7; index++){
-    if(incoming & twoPow(index)){
-      Schedule(notes[index]);
-    }
-  }
-  return 0;
+  motorID++;
+  Serial.println("detected note nextMotor");
 }
 
 void setup() {
-  motor0.init();
-  motor1.init();
-  motor2.init();
-  pinMode(dataIn,INPUT);
-  pinMode(load,OUTPUT);
-  pinMode(clockIn,OUTPUT);
-  pinMode(clockEnablePin,OUTPUT);
+    motorInit();
+    keyInit();
+    Serial.begin(9600);
 }
+
 void loop() {
-  //find which keys are pressed and first pressed goes into first motor and second in second and so on
-  GetData();
-  findNote();
-  
+  for (int i = 0; i < 8; i++)
+  {
+    //check button pressed and hasn't already scheduled all other avai
+    if(digitalRead(i)&&motorID < 4){
+      note(notes[i],motorID);
+    }
+  }
+  //reset motorID for next loop through;
+ motorID = 0;
 }
 
 
