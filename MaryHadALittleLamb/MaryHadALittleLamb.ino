@@ -19,7 +19,7 @@ int oct = 5;int del;
 bool dir=0;
 const int use=180;
 const int tempo=120;
-const long dur = 50;
+const long dur = 35;
 
 const int notes[8] = {2024, 1912, 1703, 1517, 1431, 1275, 1136, 1012};
 
@@ -45,7 +45,7 @@ void motorInit(){
 //Key Initialization
 void keyInit(){
     pinMode(0,INPUT_PULLUP);
-    pinMode(1,INPUT_PULLUP);
+    //pinMode(1,INPUT_PULLUP);
     pinMode(2,INPUT_PULLUP);
     pinMode(3,INPUT_PULLUP);
     pinMode(4,INPUT_PULLUP);
@@ -56,19 +56,21 @@ void keyInit(){
 }
 
 //play music
-void note(int num, int motorID) {
-  del=(num*oct)/10;
-  digitalWrite(motorDir[motorID],dir);
+void note(int num, int mtrID) {
+  del=(notes[num]*oct)/10;
+  digitalWrite(motorDir[mtrID],dir);
   //x in x*5*temp is duration in milliseconds
   coun=floor((dur*5*tempo)/del);
   for(int x = 0; x < coun; x++) {
-    digitalWrite(motorStep[motorID],HIGH);
+    digitalWrite(motorStep[mtrID],HIGH);
     delayMicroseconds(del);
-    digitalWrite(motorStep[motorID],LOW);
+    digitalWrite(motorStep[mtrID],LOW);
     delayMicroseconds(del);
   }
-  motorID++;
+  Serial.println("-----------------------------");
   Serial.println("detected note nextMotor");
+  Serial.println(num);
+  Serial.println("-----------------------------");
 }
 
 void setup() {
@@ -82,8 +84,16 @@ void loop() {
   for (int i = 0; i < 8; i++)
   {
     //check button pressed and hasn't already scheduled all other avai
-    if(digitalRead(i)==LOW&&motorID < 3){
-      note(notes[i],motorID);
+    if(digitalRead(i)==LOW&&motorID < 3&&i!=1){
+      note(i,motorID);
+      Serial.println(" I'm not");
+      motorID++;
+    } else if(digitalRead(i)==LOW&&motorID < 3){
+      Serial.println(digitalRead(i));
+      Serial.println(" I'm SpEcIaL");
+      delay(1000);
+    } else if(digitalRead(i)==HIGH&&motorID < 3){
+    
     }
   }
   //reset motorID for next loop through;
