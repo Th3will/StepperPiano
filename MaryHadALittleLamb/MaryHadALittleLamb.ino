@@ -1,5 +1,33 @@
+//TIMEDACTION
+
+class TimedAction {
+  
+  public:
+    TimedAction(unsigned long interval,void (*function)());
+    TimedAction(unsigned long prev,unsigned long interval,void (*function)());
+	
+	void reset();
+	void disable();
+	void enable();
+	void check();
+	
+	void setInterval( unsigned long interval );
+
+  private: 
+    bool active;
+    unsigned long previous;
+    unsigned long interval;
+    void (*execute)();
+		
+};
+
 const int stepPin[3] = {9,11,13}; 
 const int dirPin[3] = {8,10,12}; 
+
+TimedAction mot0 = TimedAction(100, play0);
+TimedAction mot1 = TimedAction(100, play1);
+TimedAction mot1 = TimedAction(100, play2);
+
 
 // here comes a bunch of 'useful' vars; dont mind
 int coun;
@@ -12,7 +40,7 @@ int oct=5;
 //int notes[8] = {1912, 1703, 1517, 1431, 1275, 1136, 1012, 956};
 const int notes[8] = {956, 851, 758, 715, 637, 568, 506, 478};
 int motDel[3] = {0,0,0};
-//bool motState[3] = {false,false,false};
+bool motState[3] = {false,false,false};
 
 void setup() {
   // Sets the two pins as Outputs
@@ -43,15 +71,14 @@ void setup() {
 
 }
 void loop() {
+  int time = millis(); 
   int motorId = 0;
   for (int i = 0; i < 8; i++)
   {
     if(digitalRead(i) == LOW && motorId < 3){
-      note(notes[i],10,motorId);
-      //motDel[motorId] = notes[i];
+      motDel[motorId] = notes[i];
       motorId++;
-    }
-    //play();
+    }    
   }
   
  
@@ -67,17 +94,64 @@ void note(int num,long dur,int motor) {
     delayMicroseconds(num);
   //}
 }
-void play(){
-  for (int i = 0; i < 3; i++)
-  {
-    
-  }
-  
+void play0(){
+  digitalWrite(stepPin[0],motState[0]);
+  motState[0] = !motState[0];
 }
 
+void play1(){
+  digitalWrite(stepPin[1],motState[1]);
+  motState[1] = !motState[1];
+}
+
+void play2(){
+  digitalWrite(stepPin[2],motState[2]);
+  motState[2] = !motState[2];
+}
    int note(int num){
     del = (num*oct)/10;
     return del;
   } 
 
+/*
+|| <<constructor>>
+*/
+TimedAction::TimedAction(unsigned long intervl,void (*function)()){
+    active = true;
+	previous = 0;
+	interval = intervl;
+	execute = function;
+}
 
+/*
+|| <<constructor>>
+*/
+TimedAction::TimedAction(unsigned long prev,unsigned long intervl,void (*function)()){
+    active = true;
+	previous = prev;
+	interval = intervl;
+	execute = function;
+}
+
+void TimedAction::reset(){
+    previous = millis();
+}
+
+void TimedAction::disable(){
+    active = false;
+}
+
+void TimedAction::enable(){
+	active = true;
+}
+
+void TimedAction::check(){
+  if ( active && (millis()-previous >= interval) ) {
+    previous = millis();
+    execute();
+  }
+}
+
+void TimedAction::setInterval( unsigned long intervl){
+	interval = intervl;
+}
