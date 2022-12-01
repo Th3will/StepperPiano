@@ -1,102 +1,66 @@
-#include <Arduino.h>
-//#include <cmath>
-//#include "A4988.h "
-#include "Motor.h"
-
-
-/*TODO
-  Implement a motor playing solution that works
-  Make Motor Scheduler w/ cases
-  Make everything into a struct and cleanup
-*/
-
-
-
+const int stepPin[3] = {9,11,13}; 
+const int dirPin[3] = {8,10,12}; 
 
 // here comes a bunch of 'useful' vars; dont mind
 int coun;
-int oct = 5;int del;
 bool dir=0;
-const int use=180;
-const int tempo=120;
-const long dur = 35;
+int del;
 
-const int notes[8] = {2024, 1912, 1703, 1517, 1431, 1275, 1136, 1012};
-
-//Motor pins; Left->Mid->Right
-const int motorDir[3] = {8,10,12};
-const int motorStep[3] = {9,11,13};
-//cycles through during loop to schedule which motor
-
-
-//Motor Initialization
-void motorInit(){
-  //motor right
-    pinMode(motorStep[0],OUTPUT); 
-    pinMode(motorDir[0],OUTPUT);
-    //motor mid
-    pinMode(motorStep[1],OUTPUT); 
-    pinMode(motorDir[1],OUTPUT);
-    //motor left
-    pinMode(motorStep[2],OUTPUT); 
-    pinMode(motorDir[2],OUTPUT);
-}
-
-//Key Initialization
-void keyInit(){
-    pinMode(0,INPUT_PULLUP);
-    //pinMode(1,INPUT_PULLUP);
-    pinMode(2,INPUT_PULLUP);
-    pinMode(3,INPUT_PULLUP);
-    pinMode(4,INPUT_PULLUP);
-    pinMode(5,INPUT_PULLUP);
-    pinMode(6,INPUT_PULLUP);
-    pinMode(7,INPUT_PULLUP);
-
-}
-
-//play music
-void note(int num, int mtrID) {
-  del=(notes[num]*oct)/10;
-  digitalWrite(motorDir[mtrID],dir);
-  //x in x*5*temp is duration in milliseconds
-  coun=floor((dur*5*tempo)/del);
-  for(int x = 0; x < coun; x++) {
-    digitalWrite(motorStep[mtrID],HIGH);
-    delayMicroseconds(del);
-    digitalWrite(motorStep[mtrID],LOW);
-    delayMicroseconds(del);
-  }
-  Serial.println("-----------------------------");
-  Serial.println("detected note nextMotor");
-  Serial.println(num);
-  Serial.println("-----------------------------");
-}
+int use=180;
+int tempo=120;
+int oct=5;
+const int notes[8] = {1912, 1703, 1517, 1431, 1275, 1136, 1012, 956};
 
 void setup() {
-    motorInit();
-    keyInit();
-    Serial.begin(9600);
-}
+  // Sets the two pins as Outputs
+  Serial.begin(9600);
 
+  pinMode(stepPin[0],OUTPUT); 
+  pinMode(dirPin[0],OUTPUT);
+  
+  pinMode(stepPin[1],OUTPUT); 
+  pinMode(dirPin[1],OUTPUT);
+  
+  pinMode(stepPin[2],OUTPUT); 
+  pinMode(dirPin[2],OUTPUT);
+
+  pinMode(0, INPUT_PULLUP);
+  pinMode(1, INPUT_PULLUP);
+  pinMode(2, INPUT_PULLUP);
+  pinMode(3, INPUT_PULLUP);
+  pinMode(4, INPUT_PULLUP);
+  pinMode(5, INPUT_PULLUP);
+  pinMode(6, INPUT_PULLUP);
+  pinMode(7, INPUT_PULLUP);
+
+}
 void loop() {
-  int motorID = 0;
+  int motorId = 0;
+  oct=5;
   for (int i = 0; i < 8; i++)
   {
-    //check button pressed and hasn't already scheduled all other avai
-    if(digitalRead(i)==LOW&&motorID < 3&&i!=1){
-      note(i,motorID);
-      Serial.println(" I'm not");
-      motorID++;
-    } else if(digitalRead(i)==LOW&&motorID < 3){
-      Serial.println(digitalRead(i));
-      Serial.println(" I'm SpEcIaL");
-      delay(1000);
-    } else if(digitalRead(i)==HIGH&&motorID < 3){
-    
+    /* code */
+    if(digitalRead(i) == LOW && motorId < 3){
+      note(notes[i],35,motorId);
+      motorId++;
     }
   }
-  //reset motorID for next loop through;
+  
+ 
+
 }
 
+void note(int num,long dur,int motor) {
+  del=(num*oct)/10;
+  //dir=!dir;
+ digitalWrite(dirPin[motor],dir);
+  coun=floor((dur*5*tempo)/del);
+  for(int x = 0; x < coun; x++) {
+    digitalWrite(stepPin[motor],HIGH);
+    delayMicroseconds(del);
+    digitalWrite(stepPin[motor],LOW);
+    delayMicroseconds(del);
+  }
+
+}
 
