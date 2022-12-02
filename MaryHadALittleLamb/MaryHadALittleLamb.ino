@@ -36,8 +36,15 @@ int af0=af*2;
 int a0=a*2;
 int f0=f*2;
 int use=180;
-int tempo=120;
+int tempo=160;
 int oct=5;
+
+const int cbat[16] = {b, df1, c, b, a, a, a, g, af, c, g, af, gf, gf, gf, e};
+const int cbat2[13] = {b, df1, c, b, a, a, a, g, af, c, g, af, b};
+const int cbatt1[16] = {2,1,3,2,1,1,2,4,2,1,3,2,1,1,2,4};
+const int cbatt2[13] = {2,1,3,2,1,1,2,4,2,1,3,2,8};
+
+
 
 void setup() {
   // Sets the two pins as Outputs
@@ -57,7 +64,7 @@ void setup() {
 
 }
 void loop() {
-  oct=5;
+  /* oct=5;
   int sensorVal0 = digitalRead(0);
   int sensorVal1 = digitalRead(1);
   int sensorVal2 = digitalRead(2);
@@ -76,7 +83,8 @@ void loop() {
   if(sensorVal4 == LOW) note(g,35);
   if(sensorVal5 == LOW) note(a,35);
   if(sensorVal6 == LOW) note(b,35);
-  if(sensorVal7 == LOW) note(c/2,35);
+  if(sensorVal7 == LOW) note(c/2,35); */
+  pcbat();
 
 }
 
@@ -99,3 +107,15 @@ void pa(int durp){
 delay(ker);
   
   }
+
+void pcbat(){
+  for (int i = 0; i < 16; i++)
+  {
+    note(cbat[i], cbatt1[i]*100);
+  }
+  for (int i = 0; i < 13; i++)
+  {
+    note(cbat2[i], cbatt2[i]*200);
+  }
+  
+}
