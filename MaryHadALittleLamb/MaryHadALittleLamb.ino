@@ -22,7 +22,11 @@ class TimedAction {
 };
 
 const int stepPin[3] = {9,11,13}; 
-const int dirPin[3] = {8,10,12}; 
+const int dirPin[3] = {8,10,12};
+
+void play0();
+void play1();
+void play2();
 
 TimedAction mot0 = TimedAction(100, play0);
 TimedAction mot1 = TimedAction(100, play1);
