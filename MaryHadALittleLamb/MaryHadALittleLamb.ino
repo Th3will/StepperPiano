@@ -26,7 +26,7 @@ const int dirPin[3] = {8,10,12};
 
 TimedAction mot0 = TimedAction(100, play0);
 TimedAction mot1 = TimedAction(100, play1);
-TimedAction mot1 = TimedAction(100, play2);
+TimedAction mot2 = TimedAction(100, play2);
 
 
 // here comes a bunch of 'useful' vars; dont mind
@@ -76,9 +76,27 @@ void loop() {
   for (int i = 0; i < 8; i++)
   {
     if(digitalRead(i) == LOW && motorId < 3){
-      motDel[motorId] = notes[i];
-      motorId++;
-    }    
+      switch (motorId)
+      {
+      case 0:
+        mot0.setInterval(notes[i]);
+        motorId++;
+        break;
+      case 1:
+        mot1.setInterval(notes[i]);
+        motorId++;
+        break;
+      case 2:
+        mot2.setInterval(notes[i]);
+        motorId++;
+        break;
+      default:
+        break;
+      }
+    }   
+    mot0.check();
+    mot1.check();
+    mot2.check();
   }
   
  
